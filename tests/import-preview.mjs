@@ -1,0 +1,12 @@
+import { readFileSync } from 'node:fs';
+import XLSX from 'xlsx';
+const mod = await import('../.tmp-sheetImport.mjs');
+const wb = XLSX.read(readFileSync(new URL('../data/sheet-export.csv', import.meta.url), 'utf8'), { type: 'string', raw: true });
+const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, raw: true, defval: '' });
+const p = mod.buildPreview(rows, 2026);
+console.log('employees', p.employees.length, 'cells', p.cells.length);
+console.log(p.mapping);
+for (const c of p.cells) console.log(c.row, c.kind, c.status, c.deadline, '|', c.items.map(i => (i.include ? '' : '✗') + i.title).join(' ‖ '));
+const pl = mod.toPayload(p, 'x');
+console.log('tasks in payload', pl.tasks.length);
+console.log(p.employees.filter(e=>e.issues.length).slice(0,6));
