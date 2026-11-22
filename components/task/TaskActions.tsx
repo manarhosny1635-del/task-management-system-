@@ -55,7 +55,7 @@ export function TaskActions({ task, perms, people, projects, departments, minDat
   if (canManage && !['completed', 'cancelled'].includes(st)) {
     buttons.push({ label: task.assignee_id ? t('actions.reassign') : t('actions.assign'), cls: st === 'new' || st === 'declined' ? 'btn-primary' : 'btn-secondary', onClick: () => setDlg({ kind: 'reassign' }) });
     buttons.push({ label: t('common.edit'), cls: 'btn-secondary', onClick: () => setDlg({ kind: 'edit' }) });
-    buttons.push({ label: t('actions.cancel'), cls: 'btn-ghost text-red-600', onClick: () => setDlg({ kind: 'reason', title: t('actions.cancel'), placeholder: t('actions.cancelPh'), action: 'cancel', required: true, danger: true }) });
+    buttons.push({ label: t('actions.cancel'), cls: 'btn-ghost text-rose-600', onClick: () => setDlg({ kind: 'reason', title: t('actions.cancel'), placeholder: t('actions.cancelPh'), action: 'cancel', required: true, danger: true }) });
   }
 
   if (!buttons.length) return null;

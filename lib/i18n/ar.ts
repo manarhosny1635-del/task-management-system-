@@ -4,7 +4,7 @@ const ar = {
   nav: {
     dashboard: 'لوحة التحكم', allTasks: 'كل المهام', myTasks: 'مهامي', assign: 'إسناد المهام',
     team: 'أعضاء الفريق', projects: 'المشاريع', extensions: 'طلبات تمديد الموعد', reports: 'التقارير',
-    notifications: 'الإشعارات', settings: 'الإعدادات', logout: 'تسجيل الخروج', menu: 'القائمة',
+    notifications: 'الإشعارات', settings: 'الإعدادات', logout: 'تسجيل الخروج', menu: 'القائمة', tasks: 'المهام', newTask: 'مهمة جديدة',
   },
   status: {
     new: 'جديدة / غير مُسندة', pending_acceptance: 'بانتظار القبول', accepted: 'مقبولة', in_progress: 'قيد التنفيذ',
@@ -37,6 +37,8 @@ const ar = {
     newPassword: 'كلمة المرور الجديدة', setPassword: 'حفظ كلمة المرور', invalid: 'البريد أو كلمة المرور غير صحيحة',
     notLinked: 'حسابك غير مرتبط بعضو في الفريق بعد. يُرجى التواصل مع مدير النظام.', backToLogin: 'العودة لتسجيل الدخول',
     passwordUpdated: 'تم تحديث كلمة المرور',
+    notConfirmed: 'البريد الإلكتروني لم يتم تأكيده بعد. اطلب من مدير النظام تأكيد حسابك.',
+    serverError: 'تعذّر الاتصال بالخادم. تحقق من الإنترنت أو من إعدادات الموقع ثم حاول مرة أخرى.',
   },
   dashboard: {
     title: 'لوحة التحكم', subtitle: 'نظرة فورية على شغل الفريق — كل الأرقام محسوبة من قاعدة البيانات',
@@ -84,7 +86,7 @@ const ar = {
     title: 'إسناد المهام', subtitle: 'أضف أي عدد من المهام — كل صف يُسجَّل مهمة مستقلة لها رقمها وحالتها وموعدها وسجلها.',
     batchTitle: 'عنوان الدفعة (اختياري)', batchNote: 'ملاحظة عامة (اختياري)', defaults: 'قيم افتراضية لكل الصفوف',
     defaultEmployee: 'الموظف الافتراضي', defaultProject: 'المشروع الافتراضي', applyToAll: 'تطبيق على كل الصفوف',
-    rows: 'المسؤوليات / المهام', addRow: 'إضافة مهمة أخرى', removeRow: 'حذف الصف', duplicateRow: 'تكرار الصف',
+    rows: 'المسؤوليات / المهام', employee: 'الموظف المسؤول', addRow: 'إضافة مهمة أخرى', removeRow: 'حذف الصف', duplicateRow: 'تكرار الصف',
     save: 'حفظ وإسناد المهام', saving: 'جارٍ الحفظ…', created: 'تم إنشاء {n} مهمة مستقلة',
     summary: '{n} مهمة · {e} موظف', rowN: 'مهمة {n}', reviewToggle: 'تحتاج مراجعة',
     leaveUnassigned: 'بدون إسناد الآن', confirmSave: 'سيتم إنشاء {n} مهمة منفصلة وإرسال إشعار لكل موظف.',
@@ -167,6 +169,35 @@ const ar = {
     noDeadline: 'بدون موعد نهائي', noDate: 'بدون تاريخ إسناد', noTasks: 'لا توجد مهام لهذا الموظف',
     fromColumn: 'من عمود', kind: { current: 'المهمة الحالية', queued: 'التالية (responsible)', finished: 'منجزة (finish)' },
     yearNote: 'التواريخ في الشيت بدون سنة — سيتم اعتبارها سنة {y}.', include: 'تضمين', history: 'عمليات استيراد سابقة',
+  },
+
+  board: {
+    title: 'المهام', subtitle: 'اسحب البطاقة إلى العمود المناسب لتحديث حالتها، ويُحفَظ التغيير فورًا.',
+    mine: 'مهامي', all: 'كل المهام', boardView: 'لوحة', listView: 'قائمة', columnNew: 'جديدة / تحتاج إسناد',
+    dropHere: 'أفلت هنا', notAllowed: 'لا يمكن نقل المهمة من «{from}» إلى «{to}»', moved: 'نُقلت {code} إلى «{to}»',
+    saving: 'جارٍ الحفظ…', moveFailed: 'تعذّر نقل المهمة، وأُعيدت إلى مكانها', empty: 'لا توجد مهام',
+    quickAdd: 'إضافة سريعة', openFull: 'فتح الصفحة الكاملة', bulk: 'إسناد عدة مهام', dragHandle: 'اسحب لنقل المهمة',
+    assignTitle: 'إسناد المهمة', chooseAssignee: 'إلى من تُسند المهمة؟', unassigned: 'غير مُسندة', noProject: 'بدون مشروع',
+    reasonTitle: { reject: 'سبب رفض المهمة', hold: 'سبب إيقاف المهمة', request_changes: 'التعديلات المطلوبة' },
+    loadingTask: 'جارٍ تحميل المهمة…', close: 'إغلاق', overdue: 'متأخرة', count: '{n} مهمة',
+  },
+  quick: {
+    title: 'مهمة جديدة', titlePh: 'ما المطلوب إنجازه؟', more: 'تفاصيل إضافية', less: 'إخفاء التفاصيل',
+    created: 'تم إنشاء المهمة {code}', bulkLink: 'تحتاج إضافة عدة مهام دفعة واحدة؟', create: 'إنشاء المهمة',
+    assigneeHint: 'اتركه فارغًا لإنشاء مهمة غير مُسندة', deadlineRequired: 'حدّد الموعد النهائي', titleRequired: 'اكتب عنوان المهمة',
+  },
+  dash: {
+    hello: 'مرحبًا {name}', subtitle: 'ما يحتاج انتباهك اليوم، وكيف يتوزع العمل على الفريق.', subtitleMine: 'ما يحتاج انتباهك اليوم في مهامك.',
+    total: 'إجمالي المهام', inProgress: 'قيد التنفيذ', completed: 'مكتملة', overdue: 'متأخرة',
+    attention: 'تحتاج متابعة', attentionSub: 'مهام تحتاج تدخلًا أو متابعة الآن',
+    g_overdue: 'متأخرة عن موعدها', g_soon: 'موعدها يقترب', g_accept: 'بانتظار قبول الموظف', g_review: 'بانتظار المراجعة والاعتماد',
+    g_ext: 'طلبات تمديد بانتظار قرارك', g_declined: 'رفضها الموظف وتحتاج إعادة إسناد', g_myAccept: 'بانتظار قبولك', g_changes: 'مطلوب منك تعديلات',
+    allClear: 'لا توجد مهام تحتاج تدخلًا الآن', allClearSub: 'كل المهام تسير في مواعيدها.',
+    workload: 'توزيع العمل على الفريق', workloadSub: 'المهام النشطة لكل موظف مقارنةً بطاقته',
+    colTotal: 'الإجمالي', colActive: 'نشطة', colDone: 'مكتملة', colOverdue: 'متأخرة', capacity: 'الطاقة',
+    recent: 'آخر النشاطات', viewAll: 'عرض الكل', more: '+{n} أخرى',
+    lateBy: 'متأخرة {n} يوم', dueToday: 'اليوم', dueIn: 'خلال {n} يوم', since: 'منذ {d}',
+    review: 'مراجعة', open: 'فتح', decide: 'اتخاذ قرار', assign: 'إسناد', idle: 'متاح', noTeam: 'لا يوجد أعضاء نشطون بعد',
   },
   err: {
     generic: 'حدث خطأ غير متوقع', not_authenticated: 'يجب تسجيل الدخول', not_allowed: 'ليس لديك صلاحية لهذا الإجراء',

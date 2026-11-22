@@ -26,7 +26,7 @@ export function Comments({ taskId, items, canWrite }: { taskId: string; items: C
           {items.map((c) => (
             <li key={c.id} className="flex gap-3">
               <Avatar name={c.author} />
-              <div className={`min-w-0 flex-1 rounded-lg px-3 py-2 ${c.kind === 'progress' ? 'bg-blue-50' : c.kind === 'note' ? 'bg-amber-50' : 'bg-ink-50'}`}>
+              <div className={`min-w-0 flex-1 rounded-lg px-3 py-2 ${c.kind === 'progress' ? 'bg-brand-100' : c.kind === 'note' ? 'bg-amber-50' : 'bg-ink-50'}`}>
                 <div className="flex flex-wrap items-center gap-2 text-xs text-ink-500">
                   <span className="font-semibold text-ink-800">{c.author}</span>
                   {c.kind !== 'comment' && <span className="badge bg-white text-ink-600 ring-ink-200">{c.kind === 'progress' ? t('tasks.progress') : t('common.notes')}</span>}

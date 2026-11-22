@@ -58,7 +58,7 @@ export default async function TaskPage({ params }: { params: Promise<{ id: strin
             <div className="flex flex-wrap items-center gap-2">
               <span className="font-mono text-sm text-ink-500">{task.code}</span>
               <StatusBadge status={task.status} /><PriorityBadge priority={task.priority} />
-              {task.is_overdue && <span className="badge bg-red-600 text-white ring-red-600">{t('deadline.overdue')}</span>}
+              {task.is_overdue && <span className="badge bg-rose-600 text-white ring-rose-600">{t('deadline.overdue')}</span>}
               {task.source === 'import' && <span className="badge bg-ink-50 text-ink-600 ring-ink-200">{t('tasks.imported')}</span>}
             </div>
             <h1 className="mt-2 text-xl font-bold text-ink-900">{task.title}</h1>
@@ -129,11 +129,11 @@ export default async function TaskPage({ params }: { params: Promise<{ id: strin
                 <li key={a.id} className="rounded-lg border border-ink-100 p-3 text-sm">
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-medium">{a.from_name ? `${a.from_name} ← ` : ''}{a.to_name}</span>
-                    <span className={`badge ${a.response === 'accepted' ? 'bg-green-50 text-green-700 ring-green-200' : a.response === 'rejected' ? 'bg-red-50 text-red-700 ring-red-200' : a.response === 'pending' ? 'bg-amber-50 text-amber-800 ring-amber-200' : 'bg-ink-50 text-ink-500 ring-ink-200'}`}>{t(`tasks.response_${a.response}`)}</span>
+                    <span className={`badge ${a.response === 'accepted' ? 'bg-green-50 text-green-700 ring-green-200' : a.response === 'rejected' ? 'bg-rose-50 text-rose-700 ring-rose-200' : a.response === 'pending' ? 'bg-amber-50 text-amber-800 ring-amber-200' : 'bg-ink-50 text-ink-500 ring-ink-200'}`}>{t(`tasks.response_${a.response}`)}</span>
                   </div>
                   <div className="mt-1 text-xs text-ink-500">{t('tasks.performedBy')}: {a.by_name} · {fmtDateTime(a.created_at)}</div>
                   {a.note && <div className="mt-1 text-xs text-ink-600">{a.note}</div>}
-                  {a.response_reason && <div className="mt-1 rounded bg-red-50 px-2 py-1 text-xs text-red-700">{t('common.reason')}: {a.response_reason}</div>}
+                  {a.response_reason && <div className="mt-1 rounded bg-rose-50 px-2 py-1 text-xs text-rose-700">{t('common.reason')}: {a.response_reason}</div>}
                 </li>
               ))}
               {!(assign.data ?? []).length && <li className="text-sm text-ink-500">—</li>}

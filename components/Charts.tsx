@@ -4,8 +4,8 @@ import { t } from '@/lib/i18n/t';
 import { Empty } from './ui';
 
 const AXIS = { fontSize: 11, fill: '#64748b' };
-const GRID = '#eef2f6';
-const BRAND = '#3b6cf6';
+const GRID = '#E5EFEF';
+const BRAND = '#5D6B6B';
 
 export interface Datum { name: string; value: number; color?: string }
 
@@ -35,7 +35,7 @@ export function HBar({ data, seriesName, height }: { data: Datum[]; seriesName: 
           <CartesianGrid horizontal={false} stroke={GRID} />
           <XAxis type="number" allowDecimals={false} tick={AXIS} axisLine={false} tickLine={false} reversed />
           <YAxis type="category" dataKey="name" orientation="right" width={150} tick={{ ...AXIS, fill: '#334155' }} axisLine={false} tickLine={false} interval={0} />
-          <Tooltip content={<TooltipBox />} cursor={{ fill: '#f1f5f9' }} />
+          <Tooltip content={<TooltipBox />} cursor={{ fill: '#F1F7F7' }} />
           <Bar dataKey="value" name={seriesName} radius={[4, 0, 0, 4]} maxBarSize={18} isAnimationActive={false}>
             {data.map((d) => <Cell key={d.name} fill={d.color ?? BRAND} />)}
           </Bar>
@@ -55,7 +55,7 @@ export function StackedHBar({ data, a, b }: { data: { name: string; a: number; b
           <CartesianGrid horizontal={false} stroke={GRID} />
           <XAxis type="number" allowDecimals={false} tick={AXIS} axisLine={false} tickLine={false} reversed />
           <YAxis type="category" dataKey="name" orientation="right" width={150} tick={{ ...AXIS, fill: '#334155' }} axisLine={false} tickLine={false} interval={0} />
-          <Tooltip content={<TooltipBox />} cursor={{ fill: '#f1f5f9' }} />
+          <Tooltip content={<TooltipBox />} cursor={{ fill: '#F1F7F7' }} />
           <Legend verticalAlign="top" height={28} iconType="square" iconSize={10} wrapperStyle={{ fontSize: 12, color: '#334155' }} />
           <Bar dataKey="a" name={a.label} stackId="s" fill={a.color} maxBarSize={18} isAnimationActive={false} stroke="#fff" strokeWidth={1} />
           <Bar dataKey="b" name={b.label} stackId="s" fill={b.color} maxBarSize={18} radius={[4, 0, 0, 4]} isAnimationActive={false} stroke="#fff" strokeWidth={1} />

@@ -3,7 +3,8 @@
 import { revalidatePath } from 'next/cache';
 import { createClient } from './supabase/server';
 import { createAdminClient } from './supabase/admin';
-import type { ActionResult } from './types';
+import type { ActionResult, TaskStatus } from './types';
+import { moveFor } from './workflow';
 
 async function rpc<T = unknown>(fn: string, args: Record<string, unknown>): Promise<ActionResult<T>> {
   const supabase = await createClient();
@@ -47,6 +48,26 @@ export async function getAttachmentUrl(path: string): Promise<ActionResult<strin
   const { data, error } = await supabase.storage.from('attachments').createSignedUrl(path, 300);
   if (error || !data) return { ok: false, error: error?.message ?? 'err.not_allowed' };
   return { ok: true, data: data.signedUrl };
+}
+
+/** Kanban drop → the matching validated workflow action (the database re-checks everything). */
+export async function moveTask(taskId: string, to: TaskStatus, opts: { reason?: string; assigneeId?: string } = {}): Promise<ActionResult<TaskStatus>> {
+  const supabase = await createClient();
+  const { data: task } = await supabase.from('tasks').select('status, requires_review').eq('id', taskId).maybeSingle();
+  if (!task) return { ok: false, error: 'err.task_not_found' };
+  const m = moveFor(task as { status: TaskStatus; requires_review: boolean }, to, { isOwner: true, canManage: true, canReview: true });
+  if (!m) return { ok: false, error: 'err.invalid_transition' };
+  const a = m.action;
+  let res: ActionResult<unknown>;
+  if (a.kind === 'accept') res = await rpc('respond_to_assignment', { p_task: taskId, p_accept: true, p_reason: null });
+  else if (a.kind === 'reject') res = await rpc('respond_to_assignment', { p_task: taskId, p_accept: false, p_reason: opts.reason ?? null });
+  else if (a.kind === 'assign') {
+    if (!opts.assigneeId) return { ok: false, error: 'err.assignee_not_found' };
+    res = await rpc('assign_task', { p_task: taskId, p_assignee: opts.assigneeId, p_note: null });
+  } else res = await rpc('transition_task', { p_task: taskId, p_action: a.action, p_note: opts.reason ?? null });
+  if (!res.ok) return res;
+  const { data: after } = await supabase.from('tasks').select('status').eq('id', taskId).maybeSingle();
+  return { ok: true, data: (after?.status ?? to) as TaskStatus };
 }
 
 // ---------- extensions -------------------------------------------------

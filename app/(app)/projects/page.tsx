@@ -40,7 +40,7 @@ export default async function ProjectsPage() {
                     <td className="td tabular-nums">{mine.length}</td>
                     <td className="td tabular-nums">{mine.length - done}</td>
                     <td className="td tabular-nums text-green-700">{done}</td>
-                    <td className="td tabular-nums text-red-600">{mine.filter((x) => x.is_overdue).length || ''}</td>
+                    <td className="td tabular-nums text-rose-600">{mine.filter((x) => x.is_overdue).length || ''}</td>
                     <td className="td text-end">{canEdit && <ProjectEditor departments={depts} project={p} />}</td>
                   </tr>
                 );

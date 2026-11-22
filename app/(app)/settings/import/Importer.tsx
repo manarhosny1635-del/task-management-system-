@@ -10,7 +10,7 @@ import { fmtDate } from '@/lib/format';
 
 type Summary = { employees_created: number; employees_existing: number; tasks_created: number; tasks_duplicate: number; errors: { row: number; error: string; name?: string; title?: string }[] };
 
-const KIND_CLS = { current: 'bg-blue-50 text-blue-700 ring-blue-200', queued: 'bg-slate-100 text-slate-700 ring-slate-200', finished: 'bg-green-50 text-green-700 ring-green-200' };
+const KIND_CLS = { current: 'bg-brand-100 text-brand-800 ring-brand-300', queued: 'bg-sand-100 text-sand-700 ring-sand-200', finished: 'bg-green-50 text-green-700 ring-green-200' };
 
 export function Importer({ bundled }: { bundled: string | null }) {
   const { run, pending } = useAction();
@@ -134,8 +134,8 @@ export function Importer({ bundled }: { bundled: string | null }) {
           </dl>
           {!!result.errors.length && (
             <div className="mt-4">
-              <h3 className="mb-2 text-sm font-semibold text-red-700">{t('importer.errors')} ({result.errors.length})</h3>
-              <ul className="space-y-1 text-sm">{result.errors.map((e, i) => <li key={i} className="rounded bg-red-50 px-2 py-1 text-red-700">{t('importer.row')} {e.row}: {e.error} {e.name ?? e.title ?? ''}</li>)}</ul>
+              <h3 className="mb-2 text-sm font-semibold text-rose-700">{t('importer.errors')} ({result.errors.length})</h3>
+              <ul className="space-y-1 text-sm">{result.errors.map((e, i) => <li key={i} className="rounded bg-rose-50 px-2 py-1 text-rose-700">{t('importer.row')} {e.row}: {e.error} {e.name ?? e.title ?? ''}</li>)}</ul>
             </div>
           )}
         </Card>

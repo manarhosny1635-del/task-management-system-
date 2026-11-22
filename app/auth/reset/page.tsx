@@ -20,7 +20,7 @@ export default function ResetPage() {
     <AuthCard title={t('auth.newPassword')}>
       <form onSubmit={submit} className="mt-4 space-y-4">
         <input type="password" required minLength={8} dir="ltr" className="input text-start" value={pw} onChange={(e) => setPw(e.target.value)} />
-        {err && <p className="text-sm text-red-600">{err}</p>}
+        {err && <p className="text-sm text-rose-600">{err}</p>}
         <button className="btn-primary w-full">{t('auth.setPassword')}</button>
       </form>
     </AuthCard>

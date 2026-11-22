@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { t } from '@/lib/i18n/t';
-import { fmtDate, fmtDateTime } from '@/lib/format';
+import { fmtDate, fmtDateTime, relTime } from '@/lib/format';
 import type { ActivityRow } from '@/lib/types';
 import { Avatar } from './ui';
 
@@ -20,24 +20,24 @@ export function activityText(a: Pick<ActivityRow, 'action' | 'details'>) {
   return t(`activity.${a.action}`, vars);
 }
 
-export function Timeline({ items, showTask }: { items: ActivityRow[]; showTask?: boolean }) {
+export function Timeline({ items, showTask, compact }: { items: ActivityRow[]; showTask?: boolean; compact?: boolean }) {
   return (
-    <ol className="relative space-y-4 before:absolute before:inset-y-1 before:start-[13px] before:w-px before:bg-ink-200">
+    <ol className={`relative ${compact ? 'space-y-3' : 'space-y-4'} before:absolute before:inset-y-1 before:start-[13px] before:w-px before:bg-brand-200`}>
       {items.map((a) => {
         const note = (a.details?.note ?? (a.action === 'status_changed' ? null : null)) as string | null;
         return (
           <li key={a.id} className="relative flex gap-3">
-            <div className="relative z-10 rounded-full ring-4 ring-white"><Avatar name={a.actor_name ?? t('activity.system')} /></div>
-            <div className="min-w-0 flex-1 text-sm">
+            <div className="relative z-10 rounded-full ring-4 ring-white"><Avatar name={a.actor_name ?? t('activity.system')} size={28} /></div>
+            <div className={`min-w-0 flex-1 ${compact ? 'text-[13px]' : 'text-sm'}`}>
               <div className="text-ink-900">
                 <span className="font-semibold">{a.actor_name ?? t('activity.system')}</span>{' '}
                 <span className="text-ink-700">{activityText(a)}</span>
                 {showTask && a.task_id && (
-                  <> · <Link href={`/tasks/${a.task_id}`} className="font-medium text-brand-600 hover:underline">{a.task_code} {a.task_title}</Link></>
+                  <> · <Link href={`/tasks/${a.task_id}`} className="font-semibold text-brand-700 hover:underline">{a.task_title}</Link></>
                 )}
               </div>
-              {note && <div className="mt-1 rounded-md bg-ink-50 px-2 py-1 text-xs text-ink-600">{note}</div>}
-              <div className="mt-0.5 text-xs text-ink-500">{fmtDateTime(a.created_at)}</div>
+              {note && <div className="mt-1 rounded-lg bg-brand-50 px-2 py-1 text-xs text-ink-600">{note}</div>}
+              <div className="mt-0.5 text-[11px] text-ink-500">{compact ? relTime(a.created_at) : fmtDateTime(a.created_at)}</div>
             </div>
           </li>
         );

@@ -24,7 +24,7 @@ export function NotificationBell({ profileId }: { profileId: string }) {
     <Link href="/notifications" className="btn-ghost relative" aria-label={t('nav.notifications')}>
       <Icon name="notifications" className="h-5 w-5" />
       {count > 0 && (
-        <span className="absolute -top-0.5 end-0.5 min-w-[18px] rounded-full bg-red-600 px-1 text-center text-[11px] font-bold leading-[18px] text-white">
+        <span className="absolute -top-0.5 end-0.5 min-w-[18px] rounded-full bg-rose-600 px-1 text-center text-[11px] font-bold leading-[18px] text-white">
           {count > 99 ? '99+' : count}
         </span>
       )}

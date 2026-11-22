@@ -21,7 +21,13 @@ function LoginForm() {
     if (params.get('unlinked')) await supabase.auth.signOut();
     const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
     setBusy(false);
-    if (error) return setError(t('auth.invalid'));
+    if (error) {
+      const code = (error as { code?: string }).code ?? '';
+      if (code === 'email_not_confirmed' || /not confirmed/i.test(error.message)) return setError(t('auth.notConfirmed'));
+      if (code === 'invalid_credentials' || /invalid login/i.test(error.message)) return setError(t('auth.invalid'));
+      if (!error.status || error.status >= 500 || /fetch|network|api key/i.test(error.message)) return setError(t('auth.serverError'));
+      return setError(t('auth.invalid'));
+    }
     router.replace(params.get('next') || '/');
     router.refresh();
   }
@@ -37,7 +43,7 @@ function LoginForm() {
           <label className="label" htmlFor="pw">{t('common.password')}</label>
           <input id="pw" type="password" required autoComplete="current-password" dir="ltr" className="input text-start" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
-        {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
+        {error && <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>}
         <button className="btn-primary w-full" disabled={busy}>{busy ? t('common.loading') : t('auth.login')}</button>
         <Link href="/forgot-password" className="block text-center text-sm text-brand-600 hover:underline">{t('auth.forgot')}</Link>
       </form>

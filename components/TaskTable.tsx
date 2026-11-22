@@ -23,7 +23,7 @@ export function TaskTable({ tasks, hideAssignee }: { tasks: TaskRow[]; hideAssig
           </thead>
           <tbody className="divide-y divide-ink-100">
             {tasks.map((x) => (
-              <tr key={x.id} className={`hover:bg-ink-50 ${x.is_overdue ? 'bg-red-50/40' : ''}`}>
+              <tr key={x.id} className={`hover:bg-ink-50 ${x.is_overdue ? 'bg-rose-50/40' : ''}`}>
                 <td className="td whitespace-nowrap font-mono text-xs text-ink-500">{x.code}</td>
                 <td className="td min-w-[240px] max-w-[360px]">
                   <Link href={`/tasks/${x.id}`} className="font-medium text-ink-900 hover:text-brand-700">{x.title}</Link>
@@ -83,7 +83,7 @@ export function Kanban({ tasks }: { tasks: TaskRow[] }) {
             </div>
             <div className="mt-1 max-h-[70vh] space-y-2 overflow-y-auto scroll-thin">
               {items.map((x) => (
-                <Link key={x.id} href={`/tasks/${x.id}`} className={`block rounded-lg border bg-white p-3 shadow-sm hover:border-brand-300 ${x.is_overdue ? 'border-red-200' : 'border-ink-200'}`}>
+                <Link key={x.id} href={`/tasks/${x.id}`} className={`block rounded-lg border bg-white p-3 shadow-sm hover:border-brand-300 ${x.is_overdue ? 'border-rose-200' : 'border-ink-200'}`}>
                   <div className="flex items-start justify-between gap-2">
                     <span className="text-sm font-medium leading-snug text-ink-900">{x.title}</span>
                     <PriorityBadge priority={x.priority} />

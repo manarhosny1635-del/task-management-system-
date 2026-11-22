@@ -45,7 +45,7 @@ export function BatchForm({ people, projects, defaultEmployee }: { people: Opt[]
     if (res.ok && res.data) { setCreated(res.data.tasks); setRows([blank({ assignee_id: defEmp, project_id: defProj })]); setBatchTitle(''); setTouched(false); }
   }
 
-  const err = (b: boolean) => (touched && b ? 'border-red-400 ring-1 ring-red-200' : '');
+  const err = (b: boolean) => (touched && b ? 'border-rose-400 ring-1 ring-rose-200' : '');
 
   return (
     <div className="space-y-4">
@@ -90,13 +90,13 @@ export function BatchForm({ people, projects, defaultEmployee }: { people: Opt[]
               <span className="text-sm font-semibold text-brand-700">{t('assign.rowN', { n: i + 1 })}</span>
               <div className="flex gap-1">
                 <button type="button" className="btn-ghost btn-sm" onClick={() => dup(r)}>{t('assign.duplicateRow')}</button>
-                <button type="button" className="btn-ghost btn-sm text-red-600" disabled={rows.length === 1} onClick={() => remove(r.key)}>{t('assign.removeRow')}</button>
+                <button type="button" className="btn-ghost btn-sm text-rose-600" disabled={rows.length === 1} onClick={() => remove(r.key)}>{t('assign.removeRow')}</button>
               </div>
             </div>
             <div className="grid gap-3 md:grid-cols-12">
               <div className="md:col-span-5"><label className="label">{t('tasks.taskTitle')} *</label>
                 <input className={`input ${err(errors[i].title)}`} value={r.title} onChange={(e) => upd(r.key, 'title', e.target.value)} /></div>
-              <div className="md:col-span-4"><label className="label">{t('tasks.assignee')}</label>
+              <div className="md:col-span-4"><label className="label">{t('assign.employee')}</label>
                 <select className="input" value={r.assignee_id} onChange={(e) => upd(r.key, 'assignee_id', e.target.value)}>
                   <option value="">{t('assign.leaveUnassigned')}</option>
                   {people.map((p) => <option key={p.id} value={p.id}>{p.name}{p.dept ? ` — ${p.dept}` : ''}</option>)}
@@ -119,7 +119,7 @@ export function BatchForm({ people, projects, defaultEmployee }: { people: Opt[]
                 <input type="checkbox" checked={r.requires_review} onChange={(e) => upd(r.key, 'requires_review', e.target.checked)} /> {t('assign.reviewToggle')}
               </label>
             </div>
-            {touched && errors[i].order && <p className="mt-2 text-xs text-red-600">{t('err.row_start_after_deadline', { row: i + 1 })}</p>}
+            {touched && errors[i].order && <p className="mt-2 text-xs text-rose-600">{t('err.row_start_after_deadline', { row: i + 1 })}</p>}
           </li>
         ))}
       </ol>

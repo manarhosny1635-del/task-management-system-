@@ -77,7 +77,7 @@ export default async function TeamPage({ searchParams }: { searchParams: Promise
               <dl className="mt-4 grid grid-cols-3 gap-2 text-center sm:grid-cols-6">
                 {([['assigned', c.total], ['pendingAcceptance', c.pending], ['inProgress', c.progress], ['underReview', c.review], ['completed', c.done], ['overdue', c.overdue]] as const).map(([k, v]) => (
                   <div key={k} className="rounded-lg bg-ink-50 px-1 py-2">
-                    <dd className={`text-base font-bold tabular-nums ${k === 'overdue' && v ? 'text-red-600' : 'text-ink-900'}`}>{v}</dd>
+                    <dd className={`text-base font-bold tabular-nums ${k === 'overdue' && v ? 'text-rose-600' : 'text-ink-900'}`}>{v}</dd>
                     <dt className="mt-0.5 text-[10px] leading-tight text-ink-500">{t(`team.${k}`)}</dt>
                   </div>
                 ))}
